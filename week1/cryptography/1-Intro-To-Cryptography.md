@@ -279,10 +279,160 @@ We don't use a hash function to do this. We use the counterpart and the has of t
 
 E.g. affirmation of a document's author.
 
+## Nonrepudiation
+
+The secret is needed too create the signature.
+
+The signer cannot claim that the signature was forged.
+
+## Certifications
+
+Used to make attestations about public key relationships.
+
+Typically in form of a *signature* on:
+- One or more cryptographically strong identifiers.
+- Information about its ownership, its use and any other properties that the signer is capable of attesting/authorising/witnessing.
+- (Meta-information) about this information itself, such as how long it is valid for and external considerations which would invalidate it.
+
+E.g.
+- SSL certificates
+
+## Digital Signatures
+
+- Signing large amounts of data is not efficient
+- Hashing large amounts of data is efficient
+
+Hence we hash a large amount of data and then sign the hash of the document.
+
+A signature on the hash of some data implies a signature on the data itself.
+This requires that the verifier also compute the hash.
+
+![](2022-07-11-14-01-56.png)
+
+## Digital Signatures in rust
+
+>evcxr
+
+```rust
+let (pair, mnemonic, raw_seed) = sr25519::Pair::generate_with_phrase(None);
+// mnemonic is the 12 word seed
+// raw_seed is what you derive from the words -> gives you the secret
+// pair is the key pair
+let (same_pair, same_raw_seed) = sr25519::Pair::from_phrase(mnemonic, None).unwrap();
+HexDisplay::from(&raw_seed)
+HexDisplay::from(&same_raw_seed)
+pair.public().0
+HexDisplay::from(&pair.public().0)
+same_pair.public() // another way of encoding the same information
+use crypto::*;
+let public = sr25519::Public::unchecked_from([150, 109, 74, 242, 160, 13, 251, 230, 209, 49, 87, 206, 72, 143, 6, 124, 228, 145, 142, 153, 157, 97, 40, 77, 14, 97, 176, 98, 253, 132, 41, 91]);
+let sig = pair.sign(b"Welcome to the Academy 2022"); // takes an arbitrary amount of input
+sr25519::Pair::verify(&sig, b"Welcome to the Academy 2022", &public)
+sr25519::Pair::verify(&sig, b"Welcome to the Academy 2033", &public)
+sr25519::Pair::verify(&sr25519::Signature::unchecked_from([0; 64]), b"Welcome to the Academy 2022", &public)
+let nobody = sr25519::Public::unchecked_from([0; 32]);
+sr25519::Pair::verify(&sig, b"Welcome to the Academy 2022", &nobody)s
+```
+
+**Advice:** Use `sr25519` and hash stuff before it goes in.
+
+Public keys are just bytes.
+
+## Signing Payloads
+
+This is an important part of system design. Users should have credible expectations about how their messages are used.
+
+For example when a user authorises a transfer, they almost always mean just one time.
+
+## Replay Attacks
+
+Someone intercepts and resends a valid message. The receiver will carry out the instructions since the message contains a valid signature.
+- Since we assume that channels are insecure, all messages should be considered intercepted.
+- The "receiver", for blockchain purposes, is actually an automated system.
+
+There was once only one ethereum. Then there was a disagreement in the consensus system, 90% of those in consensus went one way. When they split they didn't change anything about the system other than a minor element of the state transition function. Therefore if you sent a transaction in one ethereum, it was valid in another transition. It was possible to craft an instruction that did something different on the other system. When you sent a message on one chain, it could be seen and used on the other chain.
+
+Hence you need to add a sense of context to your messages.
+
+## HDKD - Hierarchical Deterministic Key Derivation
+
+Beware this is not super standardised.
+
+![](2022-07-11-14-32-44.png)
+
+Seed -> master key -> child keys -> grandchild keys
+
+### Hard vs. Soft
+
+The naive way is the hard way:
+
+- hard (naive)
+  - You take the secret add on some extra stuff/bytes and then you hash it to give you 32 bytes again
+    - Almost all 32 byte sequences are valid
+      - If it isn't a valid 32 byte sequence (very rare) you can just increment by 1
+  - The public keys are not related at all. Hashing destroys any mathematical relation between inputs and outputs.
+  - Use hard derivations as it is more secure as it avoids leaking the sibling keys.
+- soft (smart ass-way)
+  - All addresses have related or effectively the same private key.
+  - The public key of the root and the child keys have a relationship. If you know both, you cannot know the secret key. However, if the secret of a child key became known, and you knew the public key of the root, you could derive the public key of the root.
+  - We do this when we need to have this relationship between public keys. We only ever do it down the tree.
+  - Any key after which we did soft derivations could be compromised.
+
+## Soft Derivation in Wallets
+
+Wallets can use soft derivation to link all payments controlled by a single private key, without the need to expose the private key for the address derivation.
+
+## Derivation in rust
+
+```rust
+// this is a pure function, we will derive the same keys each time
+pair.derive(Some(DeriveJunction::hard(&b"foo"[..])).into_iter(), None).unwrap().0.public()
+// Doing it using sr25519, the double slash before foo means it is a hard derivation
+sr25519::Pair::from_string(&format!("{}//foo", &mnemonic), None).unwrap().public()
+// soft derivation
+pair.derive(Some(DeriveJunction::soft(&b"foo"[..])).into_iter(), None).unwrap().0.public()
+// one slash for soft
+sr25519::Pair::from_string(&format!("{}/foo", &mnemonic), None).unwrap().public()
+// deriving the counterpart public keys for soft derivation
+public.derive(Some(DeriveJunction::soft(&"foo"[..])).into_iter()).unwrap()
+sr25519::Public::from_string(&format!("0x966d4af2a00dfbe6d13157ce488f067ce4918e999d61284d0e61b062fd84295b")).unwrap()
+sr25519::Public::from_string(&format!("0x966d4af2a00dfbe6d13157ce488f067ce4918e999d61284d0e61b062fd84295b/foo")).unwrap()
+```
+
+**Use case:** A business wants to generate a new address for each payment, but should be able to automatically give customers an address without the secret key owner deriving a new child.
+
+## Mnemonics
+
+Many wallets use a dictionary of words and give people phrases, often 12 or 24 words, as these are easier to back up/recover than byte arrays.
+
+Some people create their own phrases. This is usually stupid.
+
+To generate a seed you need about 1000 bits of random data. It is a bit tricky to generate random data.
+
+## Dictionaries
+
+- BIP39 is the main one.
+
+## Mnemonic to Secret Key
+
+Of course, the secret key is a point on an elliptic curve, not a phrase. BIP39 applies 2,048 rounds of the SHA-512 hash function.
+
+## Portability
+
+Different key derivation functions affect the ability to use the same mnemonic in multiple wallets.
+
+## Next Lesson
+
+- Certificates
+- Multi-signature schemes
+
 ## Questions
 
-Does hash algorithm choice have a big impact on blockchain performance.
-What do we mean by multiple inputs into a hashing algorithm.
+Why would we want this mathematical relationship between public keys?
+
+Does hash algorithm choice have a big impact on blockchain performance?
+- Yes
+What do we mean by multiple inputs into a hashing algorithm?
 What tools other than cryptography allow us to make those guarantees of safety?
 
 
