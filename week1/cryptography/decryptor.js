@@ -23,21 +23,21 @@ let convert = (input) => {
   return output;
 };
 
-let decryptBinaryArray = (input) => {
+let decryptBinaryArray = (input, key) => {
   const output = [];
 
   input.forEach((binaryLetter) => {
-    output.push(decrypt(binaryLetter));
+    output.push(decrypt(binaryLetter, key));
   });
 
   return output;
 };
 
-let decrypt = (binaryLetterString) => {
+let decrypt = (binaryLetterString, key) => {
   let output = "";
   for (var i = 0; i < binaryLetterString.length; i++) {
     let binaryDigit = Number(binaryLetterString[i]);
-    let associatedKeyBinary = Number(KEY[i]);
+    let associatedKeyBinary = Number(key[i]);
     let xoredBinary = binaryDigit ^ associatedKeyBinary;
     output += String(xoredBinary);
   }
@@ -54,7 +54,7 @@ let binaryArrayToString = (stringArray) => {
 };
 
 // made assumption that the key is 8 bit
-// 
+//
 
 const e = "01100101";
 const space = "01010101";
@@ -85,8 +85,6 @@ let getKeyFromBinaryExpectedMostCommonLetter = (
 
 // e,t,a,i,o,n,s,h,r
 
-const KEY = getKeyFromBinaryExpectedMostCommonLetter('1', ' ');
-
 // const exerciseMessage = `15481555260c011c535055565d671501024255554b00350d131d0a0a024c0014000a024501061b0105490c464312160b4f190b550e05490d03191b5746001c4c0b0f0b4b034f
 // 064f0610000b011c4e041645135f114f4a1f0a015241024511061d1b074e08464f030a45171c174f060c024410411c0e00164f16090a54130d00030e000c01021d1c0a4c1c041d4d0b0b00044f06045342094918004e3a41141a060011584c1b5512521f18520a4e351220411c110d571b1d4b124e031d03005267191c000d0319150006010d4e334f0648010a100a48540e00040c4e09010f0d080247491a1b110006551b1e0140
 // 034904161d0c0259490345020048151b0d1116451300100a001e490008000b0f470c18040f541f00000c1a0c4303061c001e1b064c174313051c1b1e4e084e000800025511061c4d0c1d54074f1b4f5707044b530301060005070b45081d021d0009144f1e451d070a55034113100f411a0c45054e0e0418091b43161d1d0701065454084f0b0b474201011e1b55080600154f1647
@@ -95,14 +93,22 @@ const KEY = getKeyFromBinaryExpectedMostCommonLetter('1', ' ');
 // 0800121015040259541f4517174c18065e15450b175756151d001a060c49030f540c0916431b020a00000d474314034842121b0209014e4118040a5746060b000d1d454f1641302e314e151d445408410f0000070d0b1b521d4552040d104c0d48035206034519071141120d17540a4f1706410d4e0c1c090b1545571d1b48181d1d430f4f1d060e53541f1d1a1903484c04410247
 // 02520905060a0f0c5202000b1144111c0d1109091d571301521d060143431a15540a080c0218520a160a0b410d06164400000601040b55154c191c12521c4e0408180c4e17410d02451d1d144e541a50420a5253061c1141100c52040017030c4e120141
 // 0f4f04550b0a190b001b001c010154214204451c1d550445111c00011d0e`;
-const exerciseMessage = "15481555260c011c535055565d671501024255554b00350d131d0a0a024c0014000a024501061b0105490c464312160b4f190b550e05490d03191b5746001c4c0b0f0b4b034f"
+const exerciseMessage =
+  "15481555260c011c535055565d671501024255554b00350d131d0a0a024c0014000a024501061b0105490c464312160b4f190b550e05490d03191b5746001c4c0b0f0b4b034f";
 
-let encryptedMessage = exerciseMessage;
+const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+const ascii = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'.split('');
 
-const binaryArray = getBinaryArray(encryptedMessage);
+for (let i = 0; i < ascii.length; i++) {
+  let char = ascii[i];
+  let encryptedMessage = exerciseMessage;
 
-const decryptedBinaryArray = decryptBinaryArray(binaryArray);
+  const binaryArray = getBinaryArray(encryptedMessage);
 
-const decryptedString = binaryArrayToString(decryptedBinaryArray);
+  // const KEY = getKeyFromBinaryExpectedMostCommonLetter("0", letter);
+  const decryptedBinaryArray = decryptBinaryArray(binaryArray, char);
 
-console.log(decryptedString);
+  const decryptedString = binaryArrayToString(decryptedBinaryArray);
+
+  console.log(decryptedString);
+}
