@@ -227,6 +227,171 @@ Someone down the pub tells us `Hash 1`. Then we can just hash `0`, `0-1` to get 
 
 A lot of the games revolve around deriving utility from information from sources we cannot trust.
 
+## Comparison to pointer based data structures
+
+- A hash is a commitment to what is in the linked part
+  - a pointer tells you where it is
+- You can't have cycles of hashes
+
+### Hash Chains
+
+![](2022-07-13-13-51-42.png)
+
+### Merkle tress
+
+A binary merkle tree:
+
+## Types of data structures we'll look at
+
+- **Trees** - Rooted, Undirected, Acyclic Graphs (direction determined by the root)
+- **Merkle Trees** - trees which use hashes as links (crypto trees).
+- **Tries** class of tree:
+  - Given a particular piece of data, it will always be on a particular path.
+    - You know by the data exactly where it is on the tree.
+- **Radix Tries** - a class of trie:
+  - The location of a value is determined by the path constructed one digit at a time.
+    - We pull the key apart one bit at a time, and hence determine where we go on the tree based upon the value of that slice. Then we recurse down and take off another little slice of that tree. We keep doing that until we run out of key. Then when we run out of key, we place the node there on the trie.
+- **Patricia Tries** - *radix tries* which are optimized to ensure lonely node-paths are consolidated into a single node.
+  - WILL BE USED THE MOST
+  - specific instance of radix tries where there is only option at every branch.
+
+## Proofs
+
+- the root or head hash is a commitment to the entire data structure
+- Generate a proof by expanding some but not all hashes
+
+We can in principle take the values that constitute the tree. Serialise them, order them. Hash it. Now we have a identity, a reference. Now that hash only refers to this content.
+
+We could prove given that someone knows this hash. As someone who doesn't know what the hash means. I don't know/need to know given the hash what those values are. The hash has an identity relationship with those values. We don't know the values themselves from the hash. If somebody shared with us those 16 million values, and we serialized them, sorted them, hashed them, we would end up with the same hash. If we believe that the 16 million values whose hash was this value, had some particular meaning (i.e. the 16 million words of wikipedia at some particular date), then we can provided with the information at some later stage and we can verify it. If you have some way of identifying that the pre-image of the hash is meaningful, you can verify it later.
+
+Maybe we don't want to have to download all 16 million words into to read one article. We just want to know what one article was in wikipedia at that time. We happen to know what the hash is because that is easy. What we want is a proof (engineering proof) that this is in indeed the wikipedia article of 1978. We need to take the article asa bunch of words, and the index into the encyclopedia where the article is, and we want a proof as succinct as possible, showing that this is indeed the slice of wikipedia we expected.
+
+![](2022-07-13-14-07-18.png)
+
+We can do this succinctly with merkle trees.
+
+**We are proving that particular bits of a dataset are correct without being given the dataset as a whole.**
+
+- Proof of a leaf has size `O(logn)`
+- and so do proofs updates of a leaf
+
+## Kev-value database
+
+The data structure stores a mpa `key -> value`
+We should be able to
+1. Add new key value pairs
+2. Change the value associated with an existing key
+3. For any key, if it is in the database we can prove it.
+4. If no value is associated to a key, we need to be able to prove that as well.
+
+Two identical sets of key value pairs have identical identities.
+
+## Radix Trie
+
+*Words:* to, tea, ted, ten, inn, A
+
+![](2022-07-13-14-16-14.png)
+
+A radix trie is not necessarily a merkle tree.
+
+## Patricia Trie
+
+The **inn** word is simplified, you just have one node instead. These nodes can be called extension nodes.
+
+Ethereum uses extension nodes.
+
+Substrate lets all branches use extension nodes.
+
+![](2022-07-13-14-20-31.png)
+
+## Hash trie
+
+Does not refer to the fact we use hashes to refer to particular nodes. Refers to the fact we hash keys before we insert them.
+
+- We may pre-hash the data before inserting it
+- This improves the balance... expect under attack!
+- Could be a Merkle trie or regular (pointer based).
+
+If you are not careful you can end up with a very unbalanced trie.
+This is problematic if e.g. you are having to access a slow database for each node. This could be a 6-10x slower. This is an attack scenario.
+
+If I am amble to control what values/keys I put in the trie, I can effectively also control the structure, and hence the access characteristics and hence how big proofs are. Proof size is the one thing that merkle tries have going for them.
+
+It is crucial that an attacker cannot control the access characteristics and hence what keys are used in the trie.
+
+We require that the keys must be passed through a hash function, which prevents the attacker from controlling what keys get inserted into the system.
+
+They could run through pre-images until they find one whose hash exists at the right point in the trie, but that takes a lot of time. So we are now making it cost them. We could add multiple hashes but this would slow honest actors down significantly too.
+
+Say we want to enumerate all keys between one value and another value. The keys are no longer in order. So we cannot do this. We could say we will retain a prefix, and hash before and after the prefix, before the prefix they will be ordered. If we know the hash of the prefix, we can get there in the trie.
+
+We can get a pretty good degree of balance if no one is trying to attack.
+
+*The attackers job becomes harder the fuller the tree is*
+
+It is one off attack, but the effect is essentially ongoing.
+
+This constitutes a partial pre-image attack.
+
+## Computational and storage trade-offs
+
+- What radix `r` is best?
+- Proof size of a leaf is `rlogᵣn`
+  - `r = 2` gives the smallest proof for one leaf... but:
+    - higher branching at high levels of the tree can give smaller batch proofs.
+    - For storage, it is best to read consecutive data so high `r` is better.
+
+If proofs become to big, users are effectively forced to place their trust in central authorities because it becomes too much effort to do the proof. The ethereum blockchain is kind of decentralised. But it's not decentralised in regards to how you actually access the information on the blockchain and introduce information to the blockchain, where you use an RPC node. This is usually hosted the consensus organisation which happens to solely owned by one of the founders of Ethereum. You are using the service provider that is consensus.
+
+The way to fix this (this is not an ethereum specific problem) is to use proofs.
+So that the computer that is providing you with some access to Ethereum, which for all you know is the bloke down the pub, you can verify that what they are telling you is correct, assuming you know what the correct root is.
+
+If you have a good degree of confidence about this merkle root.
+
+If you have your own node on Ethereum, you can prove and check things yourself.
+
+Dot doesn't have these problems. It's a client that doesn't try to download everything. It just downloads the bits you need right there and then and verifies them using Patricia Tries.
+
+## Merkle Mountain Ranges
+
+- Append only data structure
+- Lookup elements by number
+
+A series of increasingly smaller merkle trees.
+You end up with a relatively low resource footprint in order to get the root having add some number of elements.
+Like a vec you keep appending too, and eventually you need to get an identity for what you have created so far.
+
+So far we have been talking about optimisation. It could also be that I am not allowed to know the rest of the information - they want to keep it secret.
+
+In this image there are 3 tries, one only has one element.
+
+![](2022-07-13-14-50-25.png)
+
+You cannot add trees that are the same size.
+
+Tries of the same size must be merged together.
+
+As you add items, eventually the trie merges into one trie.
+
+![](2022-07-13-14-52-50.png)
+
+This is difficult to implement.
+
+# Succinct proving with cryptography
+
+- ZK friendly hashes
+  - It is very slow to prove say blake2 in ZK proof/rollup.
+  - This is an ongoing research area
+- Non-hashed based data structures
+  - RSA accumulators
+  - Polynomial commitment based
+    - Verkle trees
+      - We do a thousand way tree (a merkle trie would do about 16 - otherwise I have to give you lots of info to do thee hash proofs). 
+
+Vector commitment schemes - I can prove one of these.
+
+These ZK proofs are performance expensive.
+
 ## Other notes
 
 Bitcoin was a military thing. US used to disallow foreign downloads.
@@ -242,6 +407,8 @@ Cryptoanalysis is the act of trying to find static relationships between the inp
 A cowboy use of hash functions is as a pseudo random number generator.
 
 Hash functions are not mathematically proven things, they are practical/engineering proof. It's Hard with a capital H belief.
+
+If you manage to find a pre-image that is a valid bitcoin block.
 
 ## Questions
 
