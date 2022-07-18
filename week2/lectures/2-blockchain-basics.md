@@ -47,3 +47,12 @@ NextBlock
 ### Probabilistic Finality
 
 In nakamoto-consensus, the probability of the finality of a block increases as the block gets deeper.
+
+[In ethereum blocks have a concept of work done](https://ethereum.stackexchange.com/questions/13378/what-is-the-exact-longest-chain-rule-implemented-in-the-ethereum-homestead-p#13750). Hence the longest chain doesn't always win, if you had 6 empty blocks with no transactions, that could be beaten by 4 blocks full of transactions.
+
+It looks at the longest difficulty path.
+
+Bitcoin doesn't have a concept of block transaction density.
+
+A nakamoto-consensus prioritises
+
