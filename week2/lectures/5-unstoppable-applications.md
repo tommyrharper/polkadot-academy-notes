@@ -175,5 +175,3 @@ Asynchronous systems can also share finality (i.e. be members of the same consen
 ## Wrap Up
 
 End of Module 3. Goals is that you now have the primitives and concepts necessary to dive into Substrate and Polkadot and start building unstoppable Web3 applications.
-
-
