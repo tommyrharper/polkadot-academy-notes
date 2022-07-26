@@ -139,3 +139,5 @@ loop {
 ## Other notes
 
 Currently, the collator nodes need to know all the state from the relay chain, but the validator nodes do not need to know all the state about the parachain.
+
+![](2022-07-26-14-37-33.png)
