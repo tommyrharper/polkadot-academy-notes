@@ -154,3 +154,39 @@ You only need 1/3 of the chunks to recover the data.
 If you block is 1mb, you would be sending out 3mb in total, each validator receives 3kb.
 
 ![](2022-07-27-12-32-37.png)
+
+## Recap
+
+- Known backing group - get skin in the game
+- Make available the PoV data
+- Reveal approval checkers
+- Catch bad guys
+- Punish them
+
+## Disputes
+
+Sends out a message - someone says that this is valid, I find that it is invalid.
+
+Now all validators of the blockchain will start fetching the data and also validate the block.
+
+This has a performance overhead.
+
+Need a supermajority (2/3), then if they all agree, they get slashed.
+
+Slash Offenders - have them pay the bill.
+
+If the block is invalid, they get slashed 100% and lose all their funds.
+
+Hopefully this code should never run.
+
+If you raise a false dispute, you get slashed a smaller amount.
+
+## Summary 
+
+- Secure heterogeneous sharding.
+- Shared Security
+- Performance via Specialization
+
+## Other notes
+
+Forks complicate this, but it was made such that no matter which fork is chosen, the slash will happen.
