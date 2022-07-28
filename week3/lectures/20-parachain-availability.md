@@ -59,7 +59,7 @@ If 2/3 say they have their chunks, then we say it is available.
 
 Error in the above slide ^^^ - there should only be 5 columns as there are only 4 parachains.
 
-## Erasure Coding
+## Erasure Coding
 
 - Allow to reconstruct the original data from `k` out of `n` chunks, losing `t` chunks at most.
 

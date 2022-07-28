@@ -53,7 +53,7 @@ wiki.polkadot.network/docs/build-transaction-construction
 consider packets with:
 - zero signatures attached as "inherents" or "unsigned extrinsics".
 
-## Fee Models
+## Fee Models
 
 - Size (bitcoin)
 - Step Metering (ethereum)
@@ -75,7 +75,7 @@ As traffic goes up, fees increase.
 
 It works like a market with supply and demand.
 
-## Metering
+## Metering
 
 Ethereum has a more complex STF than Bitcoin, namely one that is quasi-Turing-complete.
 
@@ -98,7 +98,7 @@ If it runs out of gas, it terminates the program.
 
 - EIP1159 - new way to price gas
 
-## Weight (substrate)
+## Weight (substrate)
 
 Instead of metering during runtime, meter ahead of time.
 
@@ -194,7 +194,7 @@ That is they need to be woken up.
 
 A smart contract, for example, won't execute code unless someone submits a signed, fee-paying transaction.
 
-## Brief Interruption #3
+## Brief Interruption #3
 
 All of the packets from the outside world in these systems are signed.
 
@@ -222,9 +222,9 @@ pub trait Hooks<BLockNumber> {
 ```
 Source: /frame/support/src/traits/hooks.rs
 
-## Bridges
+## Bridges
 
-### Transport
+### Transport
 
 Bridges are a transport layer between independent consensus systems.
 

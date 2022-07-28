@@ -78,7 +78,7 @@ Blockchains were not the first attempt at distributed state machines.
 - Data centers
 - High availability applications
 
-## Constraints
+## Constraints
 
 Most of these examples assume benevolent participants and an admin.
 Blockchains are adversarial with no admins.
@@ -247,7 +247,7 @@ This can be tricky in blockchains...
 
 ![](2022-07-18-10-00-12.png)
 
-## Ethereum
+## Ethereum
 
 - Generalisation of Bitcoin: Provides a quasi-Turing-complete VM
   - Quasi-Turing-complete because eth has a mechanism (running out of gas) that will stop something executing if it takes too long.

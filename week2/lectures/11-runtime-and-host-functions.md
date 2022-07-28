@@ -128,7 +128,7 @@ Native is generally **faster than Wasm** (heavily depends on WASM execution type
 
 WASM call is kind of like io.
 
-## Consideration: Types
+## Consideration: Types
 
 The runtime and the client basically only talk to each other in opaque types, i.e. `Vec<u8>`. (scale encoded bytes)
 
@@ -141,7 +141,7 @@ Runtime requiring a host function?
 - You must upgrade the clients first. A fork must happen.
 - The old one must stay FOREVER!
 
-## Substrate pull request tags
+## Substrate pull request tags
 
 - `E4-newhostfunctions`
 

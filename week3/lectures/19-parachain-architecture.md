@@ -6,7 +6,7 @@
 - Liveness
 - Decentralisation
 
-## How to achieve scalability?
+## How to achieve scalability?
 
 - Split the work
 - But maintain (economic) security!
@@ -41,7 +41,7 @@ However the nodes still need to validate the blocks produced by the collators.
 
 Instead of the collator just providing the block
 
-## Recap PoV - Proof of Validity
+## Recap PoV - Proof of Validity
 
 - Parachain Block Data
 - Patricia Merkle Trie
@@ -71,7 +71,7 @@ This becomes a performance and scalability issue.
 
 If you don't vote either for malicious reasons or because you are DDOS'd.
 
-## Wait .. Bad Guys?
+## Wait .. Bad Guys?
 
 What can malicious nodes actually do?
 
@@ -80,7 +80,7 @@ They might double spend. Spam the network. Equivocate.
 - It could manipulate messages.
 - Fool light clients
 
-## Catch Bad Guys
+## Catch Bad Guys
 
 - Punish them.
 - Gamblers ruin
@@ -96,7 +96,7 @@ An attacked could wait for all the other validators to become his friends, they 
 - Check the checkers (approvals)
 - Punish (disputes)
 
-## Two Phase Process
+## Two Phase Process
 
 - Backing
   - Backers check a PoV from a collator and are backing that it is correct 
@@ -109,7 +109,7 @@ No
 
 If you assume the backing proof is malicious.
 
-## Three Phase Process
+## Three Phase Process
 
 - Backing
   - 5 or so validators assigned to the parachain
@@ -127,7 +127,7 @@ This works!
 - Collators are untrusted
 - We need some proof on chain that the data is available.
 
-## Solution attempt #1
+## Solution attempt #1
 
 Send PoV to all validators, have them sign statements.
 
@@ -141,7 +141,7 @@ Problems -> it is still inefficient, you have to send it to 40 nodes.
 
 And it can be DDOS'd.
 
-## Solution Attempt #3
+## Solution Attempt #3
 
 - Erasure coding.
 
@@ -187,6 +187,6 @@ If you raise a false dispute, you get slashed a smaller amount.
 - Shared Security
 - Performance via Specialization
 
-## Other notes
+## Other notes
 
 Forks complicate this, but it was made such that no matter which fork is chosen, the slash will happen.

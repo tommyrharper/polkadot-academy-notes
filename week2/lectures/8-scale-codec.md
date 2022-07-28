@@ -71,6 +71,6 @@ A "compact" or general integer encoding is sufficient for encoding large integer
 
 
 
-##  Questions
+##  Questions
 
 What is LE architecture?

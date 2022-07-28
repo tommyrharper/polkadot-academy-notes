@@ -48,7 +48,7 @@ The validation of the parachain is done in a similar way to the lite client.
 - Augment the runtime with the `validate_block` function
 - The validation blob stored on the relay chain & the runtime code blob stored in the Parachain state are the same.
 
-## Cumulus on the Node Side
+## Cumulus on the Node Side
 
 - Finality
 - Triggering Block Authoring

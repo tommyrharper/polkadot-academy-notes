@@ -103,7 +103,7 @@ In some sense the difference between the barrister/solicitor situation is one of
 
 Polkadot allows its shards and chains to talk to each other without needing the user in between.
 
-## The Problem with Interoperability Today
+## The Problem with Interoperability Today
 
 - Differences in fundamental protocols means blockchains cannot talk to each other:
   - Cryptography
@@ -119,7 +119,7 @@ Blockchains require economic incentives to build and secure the chain.
 
 Shared security can help reduce the total economic burden to provide security to many blockchains.
 
-## The Problem with Multi-Chain Security Today
+## The Problem with Multi-Chain Security Today
 
 - Bootstrapping problem.
 - Tokens often provide no utility or value.
@@ -129,7 +129,7 @@ Today it is mostly "ponzi-nomics".
 
 Consensus security as a service.
 
-## Polkadot Architecture (Simple)
+## Polkadot Architecture (Simple)
 
 ![](2022-07-26-09-43-36.png)
 
@@ -153,7 +153,7 @@ Those who are selected will use their DOT token as collateral for doing their jo
 
 We choose a set of validators who we believe will be honest and competent. We pay them to do the job well, slash them if they f up.
 
-## Nominators
+## Nominators
 
 Secure the Relay chain by selecting trustworthy validators and staking dots.
 
@@ -167,7 +167,7 @@ There is a nomination market. A validator can say I will run a node, and I will 
 
 Validators are the ones who actually run the nodes.
 
-## Collators
+## Collators
 
 These people create new blocks on the parachains. They keep the relay chain synchronized with the parachains. Specific to a particular parachain. They provide with the parachain block a proof that allows the relay chain validators to be sure that the collators acted honestly when they collected the parachain block/blocks.
 
@@ -184,7 +184,7 @@ Validators can verify the state transition of any Parachain given 3 simple piece
 - The Parachain's Block
 - The Parachain's State Proof (Proof of Validity)
 
-## Polkadot is an All-In-One
+## Polkadot is an All-In-One
 
 The games console analogy - taking it further.
 
@@ -209,13 +209,13 @@ Imagine:
 
 We are able to derive strong security guarantees while splitting up our validators across different parachains.
 
-## XCMP
+## XCMP
 
 Cross-Chain Message Passing.
 
 Parachains can talk to each other without going through the relay chain (this hasn't been built yet).
 
-## Horizontal Relay-Routed Message Passing (HRMP)
+## Horizontal Relay-Routed Message Passing (HRMP)
 
 Also known as XCMP-lite.
 
@@ -230,15 +230,15 @@ You have to pass these messages via the relay chain.
 - Upward Message Passing (UMP)
 - Downward Message Passing (DMP)
 
-## Bridges
+## Bridges
 
 These do message passing without shared security (problem of weak chain vs strong chain).
 
 Allows parachains and parathreads to connect and communicate with eth and btc etc.
 
-## Economics of Polkadot
+## Economics of Polkadot
 
-### DOT Token
+### DOT Token
 
 3 core utilities:
 1. Governance
@@ -296,7 +296,7 @@ It is a bit of a honeypot for hackers to attack.
 
 A stable, non-value-bearing test network for parachain teams and the developer community.
 
-## Treasury
+## Treasury
 
 Polkadot ensure that a portion of all network fees are spent in service of the network
 

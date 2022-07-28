@@ -52,7 +52,7 @@ Overcollateralised insurance vault.
 
 Planning to get iBTC on cosmos.
 
-# ASTAR
+# ASTAR
 
 Formally known as Plasm Network.
 

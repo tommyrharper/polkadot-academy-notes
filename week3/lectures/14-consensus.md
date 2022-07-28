@@ -72,7 +72,7 @@ Finality is only probabilistic.
 
 Possible attack - hardware producers not releasing the latest hardware and secretly using it for a mining advantage.
 
-## PoW in Substrate
+## PoW in Substrate
 
 Substrate ships with a nakamoto consensus implementation.
 
@@ -194,7 +194,7 @@ The randomness computed at epooch N:
 
 Randomness collected during epoch 1 is announced to be used in epoch 3
 
-## Primary slots
+## Primary slots
 
 As with PoW the process of slot attribution is stochastic.
 
@@ -203,7 +203,7 @@ Any slot can be assigned to 0,1 or more validators
 Having unassigned slots leads to variability in block time, as no authority will be able to produce ab lock on that slot.
 
 
-## Secondary slots
+## Secondary slots
 
 In order to avoid empty slots we assign all slots to a secondary validator
 
@@ -236,7 +236,7 @@ pub struct PreDigest {
 
 A piece fo data created by the consensus protocol and added to the block before it gets executed. This is mainly used to pass consensus-related information into the runtime.
 
-## Block Seal
+## Block Seal
 
 A digest that gets added to the block after execution.
 
@@ -260,7 +260,7 @@ A BFT consensus protocol will achieve provably/instant finality as it is strongl
 - Given N validators it requires 2/3N + 1 validators to come to agreement
 - O(n^2) communication complexity
 
-## Hybrid consensus
+## Hybrid consensus
 
 INstead of making the block authoring protocol BFT tolerant, we create a gadget to perform BFT agreement on top of an already existing blockchain.
 
@@ -270,7 +270,7 @@ INstead of making the block authoring protocol BFT tolerant, we create a gadget 
 - Block authoring - eventually consistent, favors liveness, fast
 - Finality - strongly consistent, slow
 
-## GRANDPA
+## GRANDPA
 
 GHOST-based Recursive ANcestor Deriving Prefix Agreement
 
@@ -286,7 +286,7 @@ At the end of every round participants are guaranteed to reach consensus on what
 
 If you vote for a block, you implicitly vote for all its ancestors.
 
-## A GRANDPA Round
+## A GRANDPA Round
 
 Each validator broadcasts a prevote for the highest block they believe to be finalized.
 - If the supermajority of validators are honest, this block must extend the the chain that was previously finalized.

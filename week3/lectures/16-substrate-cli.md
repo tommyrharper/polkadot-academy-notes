@@ -146,7 +146,7 @@ Without specifying a `--base-path`, you amy not know where the blockchain data i
 # limit the memory the database cache can use in mib
 ```
 
-## Execute as Native
+## Execute as Native
 
 ```
 --execution <STRATEGY>
@@ -160,7 +160,7 @@ Without specifying a `--base-path`, you amy not know where the blockchain data i
 
 This could be used to have `println!`s in wasm code.
 
-## Block Pruning
+## Block Pruning
 
 You can control how many finalised blocks to keep and the underlying block state.
 

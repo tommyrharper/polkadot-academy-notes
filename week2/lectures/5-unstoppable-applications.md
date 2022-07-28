@@ -152,7 +152,7 @@ Free execution provides more power to application developers to deliver behavior
 
 Two consensus systems may have differing levels of security and definitions of finality.
 
-### Reversions
+### Reversions
 
 If you have two chains with independent consensus mechanisms, one has deterministic finality and the other probabilistic finality, then the deterministic one needs to remember the probabilistic one could go back on its word.
 

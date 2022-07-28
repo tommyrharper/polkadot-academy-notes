@@ -8,7 +8,7 @@ Substrate is a rust framework for building modular and extensible blockchains.
 
 Building a blockchain is hard.
 
-## Why Rust?
+## Why Rust?
 
 Check out: https://www.parity.io/blog/why-rust
 

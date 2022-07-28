@@ -180,7 +180,7 @@ By this definition Bitcoin is not safe (hence the need for probabilistic finalit
 - No reward in the consensus layer
 - (Usually) an explicit reward in the economic game: Block authors are paid with inflation and transaction fees.
 
-## Case Study: Tendermint
+## Case Study: Tendermint
 
 - Assume partial synchrony - time is divided into slots
 - One block is up for Byzantine agreement in each slot.

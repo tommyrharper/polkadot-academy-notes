@@ -45,7 +45,7 @@ Writing: O(logn) reads, hashes and writes
 - For holding older block states, and the cleaning up.
 - We create new database entries but keep the old ones too.
 
-## Unbalanced tree
+## Unbalanced tree
 
 This can be a good thing, done to keep some piece of data easily/efficiently accessible.
 - i.e. `:code`

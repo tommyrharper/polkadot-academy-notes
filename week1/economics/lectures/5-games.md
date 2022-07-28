@@ -58,7 +58,7 @@ Engineer pays off $300k per year.
 
 If they all reveal at once it is static.
 
-## Nash Equilibrium
+## Nash Equilibrium
 
 It is 20 in the game we played, the stable point in the system.
 
