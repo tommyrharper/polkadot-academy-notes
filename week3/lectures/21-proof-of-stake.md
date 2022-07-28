@@ -104,20 +104,3 @@ We initially chose an algorithm called `Sequential Phragmen` which fulfulls prop
 So validators are not rewarded for having more than the minimum amount of stake.
 
 The stake of the weakest polkadot validator is 1.7 million DOT.
-
-
-
-## sdf
-
-Good;
-23 23 20 73 64 
-Key character: 20
-SPACE
-
-## sdf
-
-Bad:
-23 23 c2 a0 73 64 66
-Key character: c2 a0
-NO-BREAK SPACE
-
