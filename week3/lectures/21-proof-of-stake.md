@@ -53,7 +53,7 @@ NPoS is **approval-based, multi-winner election**.
 ## Why NPoS?
 
 1. Polkadot validators are the source of truth for the state transition of both the relay chain and all of the parachains + bridges.
-2. POlkadot validators are assigned to parachains as back groups, and swapped over time.
+2. Polkadot validators are assigned to parachains as back groups, and swapped over time.
 3. Polkadot validators all author the same number of blocks.
 
 What properties do we want a validator set to have for the above requirements?
@@ -76,7 +76,7 @@ pub struct ElectionScore {
 }
 ```
 
-TLDR: NPoS allows us to incentivise the formation of a validator set that optimised teh aforementioned `ElectionScore`.
+TLDR: NPoS allows us to incentivise the formation of a validator set that optimised the aforementioned `ElectionScore`.
 
 ## NPoS Drawbacks
 
