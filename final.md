@@ -58,6 +58,20 @@ i_a_btc / n_a_btc = 1.1
 
 If I want to add another transaction pool - there is an intercorrelation between the pools that might be a different calculation.
 
+## More dex math
+
+LP reward for new pool:
+
+```
+sqrt(amount A * amount of B) = LP
+```
+
+LP reward for existing pool:
+
+```
+(amount of A / already amount of A in pool) * LP tokens minted so far = LP
+```
+
 ## Alex Brain Dump
 
 Factory is what builds the pair. The pair is interacting through an interface. Liquidity guides the interface.
