@@ -23,3 +23,13 @@ NO-BREAK SPACE
 ### StackOverflow Solution
 
 https://stackoverflow.com/questions/57162734/vscode-inserting-non-breaking-spaces-instead-of-regular-spaces#:~:text=If%20you%20have%20the%20markdown,regular%20space%20after%20the%20%23%20character.
+
+## Git trick
+
+```bash
+git commit -m 'wip'
+# do a bunch of crap
+git add .
+git reset --hard HEAD
+# this takes me back to the previous commit and wipe all new changes
+```
