@@ -33,3 +33,7 @@ git add .
 git reset --hard HEAD
 # this takes me back to the previous commit and wipe all new changes
 ```
+
+## Symbols
+
+<-':~;£+5#^!06?`28$¡>7.="3%,<4@9-1*|\0z§/_)&(
