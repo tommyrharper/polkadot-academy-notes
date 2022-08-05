@@ -218,7 +218,7 @@ enum Instruction<Call> {
 ```rust
 enum Instruction {
   ReserveAssetDeposited(MultiAssets),
-  ReceiveTeleportAsset(MulltiAssets),
+  ReceiveTeleportAsset(MultiAssets),
   NoteUnlockable { asset: MultiAsset, owner: MultiLocation },
 }
 ```
